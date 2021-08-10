@@ -1,15 +1,49 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <img src="https://bcw.blob.core.windows.net/public/img/8600856373152463" alt="CodeWorks Logo">
-    <h1 class="my-5 bg-dark text-light p-3 rounded d-flex align-items-center">
-      <span class="mx-2 text-white">Vue 3 Starter</span>
-    </h1>
+  <div class="home m-3">
+    <form @submit.prevent="createProject">
+      <div class="form-group">
+        <input v-model="state.project.name"
+               type="text"
+               class="form-control"
+               id="projectName"
+               aria-describedby="projectName"
+               placeholder="Project name..."
+        >
+      </div>
+      <div class="form-group">
+        <input v-model="state.project.description" type="text" class="form-control" id="description" placeholder="Project description...">
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Submit
+      </button>
+    </form>
   </div>
 </template>
 
 <script>
+import { reactive } from '@vue/reactivity'
+import Pop from '../utils/Notifier'
+import { projectsService } from '../services/ProjectsService'
 export default {
-  name: 'Home'
+  name: 'Home',
+  setup() {
+    const state = reactive({
+      project: {}
+    })
+    return {
+      state,
+
+      async createProject() {
+        try {
+          await projectsService.createProject(state.project)
+          state.project = {}
+        } catch (error) {
+          Pop.toast(error)
+        }
+      }
+
+    }
+  }
 }
 </script>
 
