@@ -1,18 +1,23 @@
 import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
-class ProjectsService {
+class NotesService {
   async getAll(query = {}) {
-    const projects = await dbContext.Projects.find(query).populate('creator', 'name email')
-    return projects
+    const notes = await dbContext.Notes.find(query).populate('creator', 'name email')
+    return notes
+  }
+
+  async getTaskNotes(id) {
+    const notes = await dbContext.Notes.find(id).populate('task', 'name')
+    return notes
   }
 
   async create(body) {
-    const project = await dbContext.Projects.create(body)
+    const project = await dbContext.Notes.create(body)
     return project
   }
 
   async destroy(id) {
-    const project = await dbContext.Projects.findByIdAndDelete(id)
+    const project = await dbContext.Notes.findByIdAndDelete(id)
     if (!project) {
       throw new BadRequest('invalid Id')
     }
@@ -20,4 +25,4 @@ class ProjectsService {
   }
 }
 
-export const projectsService = new ProjectsService()
+export const notesService = new NotesService()

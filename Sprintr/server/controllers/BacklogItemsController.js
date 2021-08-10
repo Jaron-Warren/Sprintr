@@ -1,9 +1,9 @@
 import { Auth0Provider } from '@bcwdev/auth0provider'
-import { projectsService } from '../services/ProjectsService'
+import { backlogItemsService } from '../services/BacklogItemsService'
 import BaseController from '../utils/BaseController'
-export class ProjectsController extends BaseController {
+export class backlogItemsController extends BaseController {
   constructor() {
-    super('api/projects')
+    super('api/backlogItems')
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getAll)
@@ -13,8 +13,8 @@ export class ProjectsController extends BaseController {
 
   async getAll(req, res, next) {
     try {
-      const projects = await projectsService.getAll({ creatorId: req.userInfo.id })
-      res.send(projects)
+      const backlogItems = await backlogItemsService.getAll({ creatorId: req.userInfo.id })
+      res.send(backlogItems)
     } catch (error) {
       next(error)
     }
@@ -23,8 +23,8 @@ export class ProjectsController extends BaseController {
   async create(req, res, next) {
     try {
       req.body.creatorId = req.userInfo.id
-      const project = await projectsService.create(req.body)
-      res.send(project)
+      const backlogItem = await backlogItemsService.create(req.body)
+      res.send(backlogItem)
     } catch (error) {
       next(error)
     }
@@ -32,8 +32,8 @@ export class ProjectsController extends BaseController {
 
   async destroy(req, res, next) {
     try {
-      await projectsService.destroy(req.params.id)
-      res.send({ message: 'successfully deleted project' })
+      await backlogItemsService.destroy(req.params.id)
+      res.send({ message: 'successfully deleted backlogItem' })
     } catch (error) {
       next(error)
     }
