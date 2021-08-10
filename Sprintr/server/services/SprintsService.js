@@ -6,6 +6,11 @@ class SprintsService {
     return sprints
   }
 
+  async getProjectSprints(id) {
+    const sprints = await dbContext.Sprints.find(id).populate('project', 'name')
+    return sprints
+  }
+
   async create(body) {
     const sprint = await dbContext.Sprints.create(body)
     return sprint

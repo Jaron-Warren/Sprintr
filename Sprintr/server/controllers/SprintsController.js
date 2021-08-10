@@ -1,9 +1,9 @@
 import { Auth0Provider } from '@bcwdev/auth0provider'
-import { projectsService } from '../services/ProjectsService'
+import { sprintsService } from '../services/SprintsService'
 import BaseController from '../utils/BaseController'
-export class ProjectsController extends BaseController {
+export class SprintsController extends BaseController {
   constructor() {
-    super('api/projects/:id/sprints')
+    super('api/sprints')
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getAll)
@@ -23,8 +23,8 @@ export class ProjectsController extends BaseController {
   async create(req, res, next) {
     try {
       req.body.creatorId = req.userInfo.id
-      const project = await sprintsService.create(req.body)
-      res.send(project)
+      const sprint = await sprintsService.create(req.body)
+      res.send(sprint)
     } catch (error) {
       next(error)
     }
@@ -33,7 +33,7 @@ export class ProjectsController extends BaseController {
   async destroy(req, res, next) {
     try {
       await sprintsService.destroy(req.params.id)
-      res.send({ message: 'successfully deleted project' })
+      res.send({ message: 'successfully deleted sprint' })
     } catch (error) {
       next(error)
     }
