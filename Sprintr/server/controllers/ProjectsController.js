@@ -9,6 +9,7 @@ export class ProjectsController extends BaseController {
     super('api/projects')
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
+      .get('/:id', this.getById)
       .get('', this.getAll)
       .get('/:id/sprints', this.getProjectSprints)
       .get('/:id/backlogItems', this.getProjectBacklogItems)
@@ -21,6 +22,15 @@ export class ProjectsController extends BaseController {
     try {
       const projects = await projectsService.getAll({ creatorId: req.userInfo.id })
       res.send(projects)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getById(req, res, next) {
+    try {
+      const project = await projectsService.getById(req.params.id)
+      res.send(project)
     } catch (error) {
       next(error)
     }

@@ -1,6 +1,11 @@
 import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
 class ProjectsService {
+  async getById(id) {
+    const project = await dbContext.Projects.findById(id)
+    return project
+  }
+
   async getAll(query = {}) {
     const projects = await dbContext.Projects.find(query).populate('creator', 'name email')
     return projects

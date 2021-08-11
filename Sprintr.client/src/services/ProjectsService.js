@@ -10,6 +10,12 @@ class ProjectsService {
     AppState.projects = res.data
   }
 
+  async getById(id) {
+    const res = await api.get('api/projects/' + id)
+    logger.log(res.data)
+    AppState.activeProject = res.data
+  }
+
   async createProject(rawProject) {
     const res = await api.post('api/projects', rawProject)
     await this.getAll()
