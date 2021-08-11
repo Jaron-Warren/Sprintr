@@ -13,6 +13,9 @@ class ProjectsService {
 
   async destroy(id) {
     const project = await dbContext.Projects.findByIdAndDelete(id)
+    await dbContext.Tasks.deleteMany({ projectId: id })
+    await dbContext.BacklogItems.deleteMany({ projectId: id })
+    await dbContext.Sprints.deleteMany({ projectId: id })
     if (!project) {
       throw new BadRequest('invalid Id')
     }

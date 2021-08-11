@@ -16,8 +16,17 @@ class TasksService {
     return project
   }
 
+  async update(body) {
+    const task = await dbContext.Tasks.findByIdAndUpdate(body.id, body, { new: true })
+    if (!task) {
+      throw new BadRequest('Task not found')
+    }
+    return task
+  }
+
   async destroy(id) {
     const project = await dbContext.Tasks.findByIdAndDelete(id)
+    await dbContext.Notes.deleteMany({ taskId: id })
     if (!project) {
       throw new BadRequest('invalid Id')
     }

@@ -6,7 +6,7 @@ import { convertToQuery } from '../utils/Query'
 class ProjectsService {
   async getAll(query = {}) {
     const res = await api.get('api/projects' + convertToQuery(query))
-    logger.log(res.data)
+    // logger.log(res.data)
     AppState.projects = res.data
   }
 

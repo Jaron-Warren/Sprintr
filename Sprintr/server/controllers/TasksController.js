@@ -4,7 +4,7 @@ import { tasksService } from '../services/TasksService'
 import BaseController from '../utils/BaseController'
 export class TasksController extends BaseController {
   constructor() {
-    super('api/sprints')
+    super('api/tasks')
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getAll)

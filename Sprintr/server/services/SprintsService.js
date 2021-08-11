@@ -16,8 +16,17 @@ class SprintsService {
     return sprint
   }
 
+  async update(body) {
+    const sprint = await dbContext.Sprints.findByIdAndUpdate(body.id, body, { new: true })
+    if (!sprint) {
+      throw new BadRequest('Sprint not found')
+    }
+    return sprint
+  }
+
   async destroy(id) {
     const sprint = await dbContext.Sprints.findByIdAndDelete(id)
+    await dbContext.Tasks.updateMany({ sprints: id }, { $pull: { sprints: id } })
     if (!sprint) {
       throw new BadRequest('invalid Id')
     }

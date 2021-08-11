@@ -1,22 +1,33 @@
 <template>
-  <div class="home m-3">
-    <form @submit.prevent="createProject">
-      <div class="form-group">
-        <input v-model="state.project.name"
-               type="text"
-               class="form-control"
-               id="projectName"
-               aria-describedby="projectName"
-               placeholder="Project name..."
-        >
+  <div class="row" v-if="user.isAuthenticated">
+    <div class="col-3">
+      <div class="home card shadow p-2 m-3">
+        <form @submit.prevent="createProject">
+          <div class="form-group">
+            <input v-model="state.project.name"
+                   type="text"
+                   class="form-control"
+                   id="projectName"
+                   aria-describedby="projectName"
+                   placeholder="Project name..."
+            >
+          </div>
+          <div class="form-group">
+            <input v-model="state.project.description" type="text" class="form-control" id="description" placeholder="Project description...">
+          </div>
+          <button type="submit" class="btn btn-primary">
+            Submit
+          </button>
+        </form>
       </div>
-      <div class="form-group">
-        <input v-model="state.project.description" type="text" class="form-control" id="description" placeholder="Project description...">
+    </div>
+    <div class="col-9">
+      <div class="row">
+        <div v-for="p in projects" :key="p.id">
+          <ProjectCard :projects="p" />
+        </div>
       </div>
-      <button type="submit" class="btn btn-primary">
-        Submit
-      </button>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -24,19 +35,32 @@
 import { reactive } from '@vue/reactivity'
 import Pop from '../utils/Notifier'
 import { projectsService } from '../services/ProjectsService'
+import { computed, onMounted } from '@vue/runtime-core'
+import { AppState } from '../AppState'
+import { router } from '../router'
 export default {
   name: 'Home',
   setup() {
     const state = reactive({
       project: {}
     })
+    onMounted(async() => {
+      try {
+        await projectsService.getAll()
+      } catch (error) {
+        Pop.toast(error)
+      }
+    })
     return {
       state,
+      projects: computed(() => AppState.projects),
+      user: computed(() => AppState.user),
 
       async createProject() {
         try {
-          await projectsService.createProject(state.project)
+          const newId = await projectsService.createProject(state.project)
           state.project = {}
+          router.push({ name: 'ProjectPage', params: { id: newId } })
         } catch (error) {
           Pop.toast(error)
         }

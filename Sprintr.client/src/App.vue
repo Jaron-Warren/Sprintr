@@ -2,8 +2,12 @@
   <header>
     <Navbar />
   </header>
-  <main>
-    <router-view />
+  <main class="container-fluid">
+    <div class="row vw-100">
+      <div class="col-12">
+        <router-view />
+      </div>
+    </div>
   </main>
   <footer>
     <div class="bg-dark text-light text-center p-4">

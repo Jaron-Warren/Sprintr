@@ -16,8 +16,17 @@ class BacklogItemsService {
     return backlogItem
   }
 
+  async update(body) {
+    const backlogItem = await dbContext.BacklogItems.findByIdAndUpdate(body.id, body, { new: true })
+    if (!backlogItem) {
+      throw new BadRequest('Backlog Item not found')
+    }
+    return backlogItem
+  }
+
   async destroy(id) {
     const backlogItem = await dbContext.BacklogItems.findByIdAndDelete(id)
+    await dbContext.Tasks.deleteMany({ backlogItemId: id })
     if (!backlogItem) {
       throw new BadRequest('invalid Id')
     }
