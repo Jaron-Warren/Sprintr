@@ -1,7 +1,9 @@
 <template>
   <div class="backlogItem">
     <h2>Backlog Items:</h2>
-    Group your tasks into items for project goals
+    <p style="text-muted">
+      Group your tasks into items for project goals
+    </p>
     <button type="button" data-toggle="modal" data-target="#createBacklogItem">
       Create new backlog Item
     </button>

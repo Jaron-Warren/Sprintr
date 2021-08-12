@@ -1,7 +1,7 @@
 <template>
   <div class="col-12">
     <div class="ProjectCard shadow card m-3 w-100">
-      <router-link :to="{ name: 'ProjectPage', params: {id: projects.id} }">
+      <router-link :to="{ name: 'BacklogItem', params: {id: projects.id} }">
         <div class="card-title">
           {{ projects.name }}
         </div>
