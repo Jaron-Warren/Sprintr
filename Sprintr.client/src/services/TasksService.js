@@ -3,7 +3,7 @@ import { api } from './AxiosService'
 
 class TasksService {
   async createTask(rawtask) {
-    await api.createTask('api/tasks', rawtask)
+    await api.post('api/tasks', rawtask)
     await this.getAll()
   }
 
