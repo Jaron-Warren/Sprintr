@@ -7,11 +7,19 @@
         </h5>
         <p class="card-text">
           <label for="status">{{ task.status }}</label>
-          <select class="form-control" id="status" v-model="state.status" @change="changeTaskStatus">
-            <option>pending</option>
-            <option>in-progress</option>
-            <option>review</option>
-            <option>done</option>
+          <select class="form-control" id="status" @change="changeTaskStatus(value)">
+            <option value="pending">
+              pending
+            </option>
+            <option value="in-progress">
+              in-progress
+            </option>
+            <option value="review">
+              review
+            </option>
+            <option value="done">
+              done
+            </option>
           </select>
         </p><div class="form-group">
           <label for="weight">Task Weight</label>
@@ -36,6 +44,8 @@
 
 <script>
 import { reactive } from '@vue/reactivity'
+import Pop from '../utils/Notifier'
+import { tasksService } from '../services/TasksService'
 export default {
 
   props: {
@@ -44,14 +54,28 @@ export default {
       required: true
     }
   },
-  setup() {
+  setup(props) {
     const state = reactive({
       status: {},
       weight: {},
       sprint: {}
     })
     return {
-      state
+      state,
+      async destroyTask() {
+        try {
+          await tasksService.destroyTask(props.task.id)
+        } catch (error) {
+          Pop.toast(error)
+        }
+      },
+      async changeTasksStatus() {
+        try {
+          await tasksService.changeTasksStatus(this.value)
+        } catch (error) {
+          Pop.toast(error)
+        }
+      }
     }
   }
 
