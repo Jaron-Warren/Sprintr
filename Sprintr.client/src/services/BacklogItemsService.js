@@ -6,13 +6,13 @@ import { convertToQuery } from '../utils/Query'
 class BacklogItemsService {
   async getAll(query = {}) {
     const res = await api.get('api/backlogItems' + convertToQuery(query))
-    logger.log(res.data)
+    // logger.log(res.data)
     AppState.backlogItems = res.data
   }
 
   async getById(id) {
     const res = await api.get('api/backlogItems/' + id)
-    logger.log('From backlogs', res.data)
+    // logger.log('From backlogs', res.data)
     AppState.activeBacklogItem = res.data
   }
 

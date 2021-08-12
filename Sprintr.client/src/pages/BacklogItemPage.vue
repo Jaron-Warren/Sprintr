@@ -7,7 +7,7 @@
       <div class="mx-3 text-muted">
         Group your tasks into backlog items for project goals!
       </div>
-      <button type="button" data-toggle="modal" data-target="#createBacklogItem" class="btn btn-success ml-3">
+      <button type="button" data-toggle="modal" data-target="#createBacklogItem" class="btn btn-primary ml-3">
         Create new backlog Item
       </button>
     </div>

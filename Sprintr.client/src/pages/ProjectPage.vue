@@ -29,6 +29,12 @@
         </li>
       </ul>
     </div>
+    <button class="btn btn-secondary">
+      Create Sprint
+    </button>
+    <button class="btn btn-danger mx-4" @click="deleteProject">
+      Delete this Project
+    </button>
   </nav>
   <div class="ProjectPage">
     <router-view />
@@ -57,7 +63,11 @@ export default {
 
     return {
       project: computed(() => AppState.activeProject),
-      sprints: computed(() => AppState.sprints)
+      sprints: computed(() => AppState.sprints),
+      deleteProject() {
+        projectsService.destroy(this.project.id)
+        router.push({ name: 'Home' })
+      }
     }
   },
   components: {}

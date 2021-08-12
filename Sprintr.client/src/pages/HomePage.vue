@@ -60,7 +60,7 @@ export default {
         try {
           const newId = await projectsService.createProject(state.project)
           state.project = {}
-          router.push({ name: 'ProjectPage', params: { id: newId } })
+          router.push({ name: 'BacklogItem', params: { id: newId } })
         } catch (error) {
           Pop.toast(error)
         }

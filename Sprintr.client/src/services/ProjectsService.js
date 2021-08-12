@@ -2,6 +2,7 @@ import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
 import { api } from './AxiosService'
 import { convertToQuery } from '../utils/Query'
+import { router } from '../router'
 
 class ProjectsService {
   async getAll(query = {}) {
@@ -19,10 +20,14 @@ class ProjectsService {
   async createProject(rawProject) {
     const res = await api.post('api/projects', rawProject)
     await this.getAll()
+    return res.data.id
   }
 
   async destroy(id) {
-    await api.delete('api/projects/' + id)
+    if (window.confirm('Are you sure you want to delete the project?')) {
+      await api.delete('api/projects/' + id)
+      router.push({ name: 'Home' })
+    }
     AppState.projects = AppState.projects.filter(p => p.id !== id)
   }
 }
