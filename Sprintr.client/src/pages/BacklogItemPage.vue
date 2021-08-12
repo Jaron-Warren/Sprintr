@@ -1,12 +1,19 @@
 <template>
-  <div class="backlogItem">
-    <h2>Backlog Items:</h2>
-    <p style="text-muted">
-      Group your tasks into items for project goals
-    </p>
-    <button type="button" data-toggle="modal" data-target="#createBacklogItem">
-      Create new backlog Item
-    </button>
+  <div class="backlogItem row justify-content-center">
+    <div class="col-12 d-flex m-2 justify-content-around">
+      <div class="font-weight-bold bigtext">
+        Backlog Items:
+      </div>
+      <div class="mx-3 text-muted">
+        Group your tasks into backlog items for project goals!
+      </div>
+      <button type="button" data-toggle="modal" data-target="#createBacklogItem" class="btn btn-success ml-3">
+        Create new backlog Item
+      </button>
+    </div>
+    <div class="row justify-content-center">
+      <BacklogItem v-for="item in backlog" :key="item._id" :item="item" />
+    </div>
 
     <!-- Modal -->
     <div class="modal"
@@ -37,15 +44,6 @@
                        v-model="state.backlogItem.name"
                 >
               </div>
-              <div class="form-group">
-                <label class="pr-2" for="Name">Description:</label>
-                <input type="text"
-                       id="backlogitemdescription"
-                       class="form-control"
-                       placeholder="description..."
-                       v-model="state.backlogItem.description"
-                >
-              </div>
             </div>
           </div>
           <div class="modal-footer bg-dark">
@@ -67,16 +65,27 @@ import { reactive } from '@vue/reactivity'
 import { backlogItemsService } from '../services/BacklogItemsService'
 import Pop from '../utils/Notifier'
 import { useRoute } from 'vue-router'
+import { computed, onMounted } from '@vue/runtime-core'
+import { AppState } from '../AppState'
 
 export default {
-  name: 'BacklogItem',
+  name: 'BacklogItemPage',
   setup() {
     const route = useRoute()
     const state = reactive({
       backlogItem: {}
     })
+    onMounted(async() => {
+      try {
+        await backlogItemsService.getAll()
+      } catch (error) {
+        Pop.toast(error)
+      }
+    })
+
     return {
       state,
+      backlog: computed(() => AppState.backlogItems.filter((item) => item.projectId === AppState.activeProject.id)),
       async createBacklogItem() {
         try {
           state.backlogItem.projectId = route.params.id
@@ -87,11 +96,12 @@ export default {
         }
       }
     }
-  },
-  components: {}
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-
+.bigtext {
+  font-size: 1.5rem;
+}
 </style>

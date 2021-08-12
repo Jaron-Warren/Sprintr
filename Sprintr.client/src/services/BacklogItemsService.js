@@ -6,7 +6,7 @@ import { convertToQuery } from '../utils/Query'
 class BacklogItemsService {
   async getAll(query = {}) {
     const res = await api.get('api/backlogItems' + convertToQuery(query))
-    // logger.log(res.data)
+    logger.log(res.data)
     AppState.backlogItems = res.data
   }
 
@@ -23,7 +23,8 @@ class BacklogItemsService {
 
   async destroy(id) {
     await api.delete('api/backlogItems/' + id)
-    AppState.backlogItems = AppState.backlogItems.filter(p => p.id !== id)
+    AppState.backlogItems = AppState.backlogItems.filter(i => i.id !== id)
+    await this.getAll()
   }
 }
 
