@@ -1,11 +1,11 @@
 <template>
   <div class="col-12">
-    <div class="ProjectCard shadow card m-3 w-100">
+    <div class="ProjectCard shadow card m-3 w-80">
       <router-link :to="{ name: 'BacklogItem', params: {id: projects.id} }">
-        <div class="card-title">
+        <div class="font-weight-bold ml-4">
           {{ projects.name }}
         </div>
-        <div class="card-body">
+        <div class="font-italic text-center">
           {{ projects.description }}
         </div>
       </router-link>
@@ -31,5 +31,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.w-80 {
+  width: 40vw;
+}
 </style>

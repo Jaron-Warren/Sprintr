@@ -23,8 +23,8 @@
     </div>
     <div class="col-9">
       <div class="row">
-        <div v-for="p in projects" :key="p.id">
-          <ProjectCard :projects="p" />
+        <div>
+          <ProjectCard v-for="p in projects" :key="p.id" :projects="p" />
         </div>
       </div>
     </div>
