@@ -26,13 +26,13 @@
           <input
             type="number"
             name="weight"
-            v-model="state.weight"
+            v-model="state.newWeight"
             class="form-control"
             placeholder="weight..."
             required
             min="1"
             :default="task.weight"
-            @change="changeTasksWeight"
+            @change="changeTaskWeight(state.newWeight)"
           />
         </div>
         <a href="#" class="btn btn-primary m-1" @click="addNote">Add Note</a>
@@ -56,8 +56,7 @@ export default {
   },
   setup(props) {
     const state = reactive({
-      status: {},
-      weight: {},
+      newWeight: {},
       sprint: {}
     })
     return {
@@ -69,9 +68,9 @@ export default {
           Pop.toast(error)
         }
       },
-      async changeTasksStatus() {
+      async changeTaskStatus(value) {
         try {
-          await tasksService.changeTasksStatus(this.value)
+          await tasksService.changeTaskStatus(props.task.id, value)
         } catch (error) {
           Pop.toast(error)
         }
