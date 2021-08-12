@@ -4,7 +4,7 @@
   </header>
   <main class="container-fluid">
     <div class="row vw-100">
-      <div class="col-12">
+      <div class="col-12 p-0">
         <router-view />
       </div>
     </div>
