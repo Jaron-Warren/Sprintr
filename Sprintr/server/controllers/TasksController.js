@@ -10,6 +10,7 @@ export class TasksController extends BaseController {
       .get('', this.getAll)
       .get('/:id/notes', this.getTaskNotes)
       .post('', this.create)
+      .put('/:id', this.update)
       .delete('/:id', this.destroy)
   }
 
@@ -35,6 +36,16 @@ export class TasksController extends BaseController {
     try {
       req.body.creatorId = req.userInfo.id
       const task = await tasksService.create(req.body)
+      res.send(task)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async update(req, res, next) {
+    try {
+      req.body.id = req.params.id
+      const task = await tasksService.update(req.body)
       res.send(task)
     } catch (error) {
       next(error)

@@ -6,8 +6,13 @@ class TasksService {
     return tasks
   }
 
-  async getProjecttasks(id) {
+  async getProjectTasks(id) {
     const tasks = await dbContext.Tasks.find(id).populate('project', 'name')
+    return tasks
+  }
+
+  async getSprintTasks(id) {
+    const tasks = await dbContext.Tasks.find(id)
     return tasks
   }
 
