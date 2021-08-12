@@ -22,8 +22,8 @@
             Backlog
           </router-link>
         </li>
-        <li class="nav-item">
-          <router-link :to="{ name: 'Sprint' }" class="nav-link">
+        <li class="nav-item" v-for="s in sprints" :key="s.id">
+          <router-link :to="{ name: 'Sprint', params: {sprintid: s.id} }" class="nav-link">
             Sprint
           </router-link>
         </li>
@@ -56,7 +56,8 @@ export default {
     })
 
     return {
-      project: computed(() => AppState.activeProject)
+      project: computed(() => AppState.activeProject),
+      sprints: computed(() => AppState.sprints)
     }
   },
   components: {}
