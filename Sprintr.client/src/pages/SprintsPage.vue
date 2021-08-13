@@ -1,6 +1,7 @@
 <template>
   <div class="row">
     <div class="col-12">
+      <a href="#" class="btn btn-danger m-1" @click="destroySprint">Delete this Sprint</a>
       <h3>  Sprints view page!</h3>
       <div class="sprints row">
         <div v-for="t in tasks" :key="t.id">
@@ -35,7 +36,10 @@ export default {
     })
     return {
       state,
-      tasks: computed(() => AppState.tasks)
+      tasks: computed(() => AppState.tasks),
+      async destroySprint() {
+        await sprintsService.destroySprint(route.params.sprintid)
+      }
     }
   },
   components: {}

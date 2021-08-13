@@ -2,6 +2,8 @@
   <div>
     <p> {{ note.description }}</p>
     <a href="#" class="btn btn-danger m-1" @click="destroyNote()">Delete</a>
+    {{ note.creator.name }}
+    <img :src="note.creator.picture" alt="">
   </div>
 </template>
 

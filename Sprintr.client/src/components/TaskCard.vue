@@ -108,7 +108,9 @@ export default {
   setup(props) {
     const state = reactive({
       task: props.task,
-      newTask: {},
+      newTask: {
+        status: ''
+      },
       newNote: {}
     })
     onMounted(async() => {
@@ -128,9 +130,9 @@ export default {
           Pop.toast(error)
         }
       },
-      async changeTaskStatus(task) {
+      async changeTaskStatus() {
         try {
-          await tasksService.updateTask(props.task._id, task)
+          await tasksService.updateTask(props.task._id, state.newTask)
         } catch (error) {
           Pop.toast(error)
         }
