@@ -77,7 +77,7 @@ export default {
     })
     onMounted(async() => {
       try {
-        await backlogItemsService.getAll()
+        await backlogItemsService.getAll(AppState.activeProject.id)
       } catch (error) {
         Pop.toast(error)
       }
