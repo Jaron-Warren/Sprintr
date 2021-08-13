@@ -24,11 +24,9 @@
         </button>
       </div>
       <div class="collapse" :id="'collapse' + item._id">
-        <div class="row">
-          <div class="card card-body">
-            <div v-for="t in tasks" :key="t.id">
-              <TaskCard :task="t" />
-            </div>
+        <div class="sprints row">
+          <div v-for="t in tasks" :key="t.id">
+            <TaskCard :task="t" />
           </div>
         </div>
       </div>

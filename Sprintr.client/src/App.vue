@@ -9,11 +9,6 @@
       </div>
     </div>
   </main>
-  <footer>
-    <div class="bg-dark text-light text-center p-4">
-      Made with 💖 by Jaron and Aaron
-    </div>
-  </footer>
 </template>
 
 <script>

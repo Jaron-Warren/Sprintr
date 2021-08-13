@@ -1,11 +1,6 @@
 import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
 class SprintsService {
-  async getAll(query = {}) {
-    const sprints = await dbContext.Sprints.find(query).populate('creator', 'name email')
-    return sprints
-  }
-
   async getProjectSprints(id) {
     const sprints = await dbContext.Sprints.find(id).populate('project', 'name')
     return sprints
