@@ -38,7 +38,7 @@
               <div class="form-group">
                 <label class="pr-2" for="Name">Name:</label>
                 <input type="text"
-                       id="backlogitemname"
+                       :id="'backlogitemname' + activeProject.id"
                        class="form-control"
                        placeholder="Name..."
                        v-model="state.backlogItem.name"
@@ -79,7 +79,9 @@ export default {
     onMounted(async() => {
       try {
         await backlogItemsService.getAll(AppState.activeProject.id)
-        await tasksService.getProjectTasks(AppState.activeProject.id)
+        if (AppState.tasks.length === 0) {
+          await tasksService.getProjectTasks(AppState.activeProject.id)
+        }
       } catch (error) {
         Pop.toast(error)
       }
@@ -88,6 +90,7 @@ export default {
     return {
       state,
       backlog: computed(() => AppState.backlogItems.filter((item) => item.projectId === AppState.activeProject.id)),
+      activeProject: AppState.activeProject,
       async createBacklogItem() {
         try {
           state.backlogItem.projectId = route.params.id
