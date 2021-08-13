@@ -26,13 +26,13 @@
           <input
             type="number"
             name="weight"
-            v-model="state.weight"
+            v-model="state.task.weight"
             class="form-control"
             placeholder="weight..."
             required
             min="1"
             :default="task.weight"
-            @click="changeTaskStatus(task)"
+            @click="changeTaskStatus(state.task)"
           />
         </div>
         <a href="#" class="btn btn-primary m-1" @click="addNote">Add Note</a>
@@ -68,10 +68,10 @@ export default {
           Pop.toast(error)
         }
       },
-      async changeTaskStatus() {
-        console.log(state.task)
+      async changeTaskStatus(task) {
+        console.log(task)
         try {
-          await tasksService.updateTask(props.task._id, state.task)
+          await tasksService.updateTask(props.task._id, task)
         } catch (error) {
           Pop.toast(error)
         }
