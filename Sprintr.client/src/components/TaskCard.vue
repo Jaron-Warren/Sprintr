@@ -36,8 +36,12 @@
             @click="changeTaskStatus(value)"
           />
         </div>
-        <a href="#" class="btn btn-primary m-1" type="button" data-toggle="modal" :data-target="'#createNote' + task._id">View Notes</a>
-        <a href="#" class="btn btn-danger m-1" @click="destroyTask">Delete</a>
+        <button class="btn btn-primary m-1" type="button" data-toggle="modal" :data-target="'#createNote' + task._id">
+          View Notes
+        </button>
+        <button class="btn btn-danger m-1" @click.stop="destroyTask">
+          Delete
+        </button>
       </div>
     </div>
   </div>
