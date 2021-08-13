@@ -1,8 +1,12 @@
 <template>
-  <h3>  Sprints view page!</h3>
-  <div class="sprints row">
-    <div v-for="t in tasks" :key="t.id">
-      <TaskCard :task="t" />
+  <div class="row">
+    <div class="col-12">
+      <h3>  Sprints view page!</h3>
+      <div class="sprints row">
+        <div v-for="t in tasks" :key="t.id">
+          <TaskCard :task="t" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -24,7 +28,7 @@ export default {
     onMounted(async() => {
       try {
         logger.log(route.params)
-        await sprintsService.getAll(route.params.sprintid)
+        await sprintsService.getAll(route.params.id)
       } catch (error) {
         Pop.toast(error)
       }
