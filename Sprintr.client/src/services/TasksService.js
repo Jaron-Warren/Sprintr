@@ -2,6 +2,11 @@ import { AppState } from '../AppState'
 import { api } from './AxiosService'
 
 class TasksService {
+  async getAll(projectid) {
+    const res = await api.get('api/tasks')
+    AppState.tasks = res.data
+  }
+
   async createTask(rawtask) {
     await api.post('api/tasks', rawtask)
     await this.getAll()
