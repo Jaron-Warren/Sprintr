@@ -5,7 +5,7 @@ const ObjectId = Schema.Types.ObjectId
 export const Note = new Schema(
   {
     description: { type: String, required: true },
-    taskId: { type: ObjectId, ref: 'Task', required: true },
+    taskId: { type: ObjectId, ref: 'Task' },
     creatorId: { type: ObjectId, ref: 'Account', required: true }
   }
 )

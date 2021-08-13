@@ -35,10 +35,60 @@
             @click="changeTaskStatus(state.task)"
           />
         </div>
-        <a href="#" class="btn btn-primary m-1" @click="addNote">Add Note</a>
+        <a href="#" class="btn btn-primary m-1" type="button" data-toggle="modal" :data-target="'#createNote' + task._id">View Notes</a>
         <a href="#" class="btn btn-danger m-1" @click="destroyTask">Delete</a>
       </div>
     </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal"
+       :id="'createNote' + task._id"
+       tabindex="-1"
+       role="dialog"
+       aria-labelledby="modelTitleId"
+       aria-hidden="true"
+  >
+    <form class="modal-dialog" role="document" @submit.prevent="createNote">
+      <div class="modal-content">
+        <div class="modal-header bg-dark">
+          <h5 class="modal-title">
+            Notes for {{ task.name }}!
+          </h5>
+          <div class="modal-body">
+            <ol>
+              <li v-for="index in note" :key="index">
+                <Note :note="index" />
+              </li>
+              <li>notes</li>
+              <li>notes</li>
+            </ol>
+          </div>
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body bg-dark">
+          <div class="container-fluid">
+            <div class="form-group">
+              <input type="text"
+                     id="description"
+                     class="form-control"
+                     placeholder="Add note here..."
+                     v-model="state.newNote.description"
+              >
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer bg-dark">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Add
+          </button>
+        </div>
+      </div>
+    </form>
   </div>
 </template>
 
@@ -46,6 +96,8 @@
 import { reactive } from '@vue/reactivity'
 import Pop from '../utils/Notifier'
 import { tasksService } from '../services/TasksService'
+import { computed, onMounted } from '@vue/runtime-core'
+import { AppState } from '../AppState'
 export default {
 
   props: {
@@ -57,10 +109,19 @@ export default {
   setup(props) {
     const state = reactive({
       task: props.task,
-      sprint: {}
+      sprint: {},
+      newNote: {}
+    })
+    onMounted(async() => {
+      try {
+        await tasksService.getAllNotes()
+      } catch (error) {
+        Pop.toast(error)
+      }
     })
     return {
       state,
+      note: computed(() => AppState.notes),
       async destroyTask() {
         try {
           await tasksService.destroyTask(props.task._id)
@@ -75,7 +136,11 @@ export default {
         } catch (error) {
           Pop.toast(error)
         }
+      },
+      async createNote() {
+        await tasksService.createNote(state.newNote)
       }
+
     }
   }
 

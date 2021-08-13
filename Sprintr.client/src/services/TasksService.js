@@ -13,6 +13,16 @@ class TasksService {
     await api.post('api/tasks/', rawtask)
   }
 
+  async createNote(rawNote) {
+    await api.post('api/notes', rawNote)
+    logger.log(AppState.notes)
+  }
+
+  async getAllNotes() {
+    const res = await api.get('api/notes')
+    AppState.notes = res.data
+  }
+
   async destroyTask(id) {
     await api.delete('api/tasks/' + id)
     AppState.tasks = AppState.tasks.filter(t => t.id !== id)
