@@ -38,6 +38,7 @@ import { projectsService } from '../services/ProjectsService'
 import { computed, onMounted } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 import { router } from '../router'
+
 export default {
   name: 'Home',
   setup() {

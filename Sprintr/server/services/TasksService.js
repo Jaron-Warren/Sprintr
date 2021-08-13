@@ -1,10 +1,10 @@
 import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
 class TasksService {
-  async getAll(query = {}) {
-    const tasks = await dbContext.Tasks.find(query).populate('creator', 'name email')
-    return tasks
-  }
+  // async getAll(query = {}) {
+  //   const tasks = await dbContext.Tasks.find(query).populate('creator', 'name email')
+  //   return tasks
+  // }
 
   async getProjectTasks(id) {
     const tasks = await dbContext.Tasks.find(id).populate('project', 'name')

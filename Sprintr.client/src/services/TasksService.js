@@ -1,24 +1,25 @@
 import { AppState } from '../AppState'
+import { logger } from '../utils/Logger'
 import { api } from './AxiosService'
 
 class TasksService {
-  async getAll(projectid) {
+  async getProjectTasks(projectid) {
     const res = await api.get('api/tasks')
+    // logger.log(res.data)
     AppState.tasks = res.data
   }
 
   async createTask(rawtask) {
-    await api.post('api/tasks', rawtask)
-    await this.getAll()
+    await api.post('api/tasks/', rawtask)
   }
 
   async destroyTask(id) {
-    await api.delete('api/tasks' + id)
+    await api.delete('api/tasks/' + id)
     AppState.tasks = AppState.tasks.filter(t => t.id !== id)
   }
 
-  async changeTaskStatus(id, value) {
-    const res = await api.put('api/tasks' + id, value)
+  async updateTask(id, task) {
+    const res = await api.put('api/tasks/' + id, task)
   }
 }
 

@@ -67,6 +67,7 @@ import Pop from '../utils/Notifier'
 import { useRoute } from 'vue-router'
 import { computed, onMounted } from '@vue/runtime-core'
 import { AppState } from '../AppState'
+import { tasksService } from '../services/TasksService'
 
 export default {
   name: 'BacklogItemPage',
@@ -78,6 +79,7 @@ export default {
     onMounted(async() => {
       try {
         await backlogItemsService.getAll(AppState.activeProject.id)
+        await tasksService.getProjectTasks(AppState.activeProject.id)
       } catch (error) {
         Pop.toast(error)
       }

@@ -79,10 +79,11 @@
 </template>
 
 <script>
-import { computed, reactive } from '@vue/runtime-core'
+import { computed, onMounted, reactive } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 import { backlogItemsService } from '../services/BacklogItemsService'
 import { tasksService } from '../services/TasksService'
+import Pop from '../utils/Notifier'
 export default {
   props: {
     item: {
@@ -96,15 +97,20 @@ export default {
     })
     return {
       state,
-      task: computed(() => AppState.tasks.filter((task) => task.projectId === AppState.activeProject.id)),
+      task: computed(() => AppState.tasks.filter((task) => task.backlogItemId === props.item._id)),
       deleteBacklogItem() {
         backlogItemsService.destroy(props.item._id)
       },
-      createTask() {
+      async createTask() {
         state.newTask.projectId = AppState.activeProject.id
         state.newTask.backlogItemId = props.item._id
-        tasksService.createTask(state.newTask)
-        state.newTask = {}
+        try {
+          await tasksService.createTask(state.newTask)
+          state.newTask = {}
+          await tasksService.getProjectTasks(AppState.activeProject.id)
+        } catch (error) {
+          Pop.toast(error)
+        }
       }
     }
   }

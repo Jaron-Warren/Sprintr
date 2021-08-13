@@ -7,16 +7,16 @@ export class TasksController extends BaseController {
     super('api/tasks')
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
-      .get('', this.getAll)
+      .get('', this.getProjectTasks)
       .get('/:id/notes', this.getTaskNotes)
       .post('', this.create)
       .put('/:id', this.update)
       .delete('/:id', this.destroy)
   }
 
-  async getAll(req, res, next) {
+  async getProjectTasks(req, res, next) {
     try {
-      const tasks = await tasksService.getAll({ creatorId: req.userInfo.id })
+      const tasks = await tasksService.getProjectTasks({ creatorId: req.userInfo.id })
       res.send(tasks)
     } catch (error) {
       next(error)
