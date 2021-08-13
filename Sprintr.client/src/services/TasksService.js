@@ -21,6 +21,13 @@ class TasksService {
   async getAllNotes() {
     const res = await api.get('api/notes')
     AppState.notes = res.data
+    logger.log(res.data)
+  }
+
+  async destroyNote(id) {
+    await api.delete('api/notes/' + id)
+    AppState.notes = AppState.notes.filter(n => n.id !== id)
+    this.getAllNotes()
   }
 
   async destroyTask(id) {

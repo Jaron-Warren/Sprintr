@@ -5,9 +5,9 @@
         <h5 class="card-title">
           {{ task.name }}
         </h5>
-        <p class="card-text">
+        <form class="card-text" @click="changeTaskStatus(value)">
           <label for="status">{{ task.status }}</label>
-          <select class="form-control" id="status" @change="changeTaskStatus(value)">
+          <select class="form-control" type="button" v-model="state.newTask.status" id="status">
             <option value="pending">
               pending
             </option>
@@ -21,7 +21,8 @@
               done
             </option>
           </select>
-        </p><div class="form-group">
+        </form>
+        <div class="form-group">
           <label for="weight">Task Weight</label>
           <input
             type="number"
@@ -32,7 +33,7 @@
             required
             min="1"
             :default="task.weight"
-            @click="changeTaskStatus(state.task)"
+            @click="changeTaskStatus(value)"
           />
         </div>
         <button class="btn btn-primary m-1" type="button" data-toggle="modal" :data-target="'#createNote' + task._id">
@@ -63,8 +64,6 @@
               <li v-for="index in note" :key="index">
                 <Note :note="index" />
               </li>
-              <li>notes</li>
-              <li>notes</li>
             </ol>
           </div>
           <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
@@ -113,7 +112,7 @@ export default {
   setup(props) {
     const state = reactive({
       task: props.task,
-      sprint: {},
+      newTask: {},
       newNote: {}
     })
     onMounted(async() => {
