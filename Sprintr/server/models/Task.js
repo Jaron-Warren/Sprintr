@@ -9,7 +9,7 @@ export const Task = new Schema(
     weight: { type: Number, default: 1, required: true },
     projectId: { type: ObjectId, ref: 'Project', required: true },
     creatorId: { type: ObjectId, ref: 'Account', required: true },
-    sprintId: { type: ObjectId, ref: 'Sprint', required: true },
+    sprintId: { type: ObjectId, ref: 'Sprint' },
     backlogItemId: { type: ObjectId, ref: 'BacklogItem', required: true }
   }
 )
