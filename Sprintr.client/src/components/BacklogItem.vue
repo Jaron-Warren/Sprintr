@@ -84,6 +84,7 @@ import { AppState } from '../AppState'
 import { backlogItemsService } from '../services/BacklogItemsService'
 import { tasksService } from '../services/TasksService'
 import Pop from '../utils/Notifier'
+import $ from 'jquery'
 export default {
   props: {
     item: {
@@ -108,6 +109,7 @@ export default {
           await tasksService.createTask(state.newTask)
           state.newTask = {}
           await tasksService.getProjectTasks(AppState.activeProject.id)
+          $('#createTask').modal('hide')
         } catch (error) {
           Pop.toast(error)
         }
