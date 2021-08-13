@@ -11,7 +11,7 @@
           <h3>{{ item.name }}</h3>
         </a>
         <h5 class="ml-5 mb-0 mt-2">
-          Weight: 0
+          Weight: {{ calculateWeight(tasks) }}
         </h5>
         <button class="btn btn-primary ml-5" type="button" data-toggle="modal" :data-target="'#createTask' + item._id">
           Add Task
@@ -26,7 +26,7 @@
       <div class="collapse" :id="'collapse' + item._id">
         <div class="row">
           <div class="card card-body">
-            <div v-for="t in task" :key="t.id">
+            <div v-for="t in tasks" :key="t.id">
               <TaskCard :task="t" />
             </div>
           </div>
@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import { computed, onMounted, reactive } from '@vue/runtime-core'
+import { computed, reactive } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 import { backlogItemsService } from '../services/BacklogItemsService'
 import { tasksService } from '../services/TasksService'
@@ -94,11 +94,12 @@ export default {
   },
   setup(props) {
     const state = reactive({
-      newTask: {}
+      newTask: {},
+      weight: 0
     })
     return {
       state,
-      task: computed(() => AppState.tasks.filter((task) => task.backlogItemId === props.item._id)),
+      tasks: computed(() => AppState.tasks.filter((task) => task.backlogItemId === props.item._id)),
       deleteBacklogItem() {
         backlogItemsService.destroy(props.item._id)
       },
@@ -113,6 +114,13 @@ export default {
         } catch (error) {
           Pop.toast(error)
         }
+      },
+      calculateWeight(tasks) {
+        let total = 0
+        tasks.forEach(task => {
+          total += task.weight
+        })
+        return total
       }
     }
   }

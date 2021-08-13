@@ -1,7 +1,7 @@
 <template>
   <h3>  Sprints view page!</h3>
   <div class="sprints row">
-    <div v-for="t in task" :key="t.id">
+    <div v-for="t in tasks" :key="t.id">
       <TaskCard :task="t" />
     </div>
   </div>
@@ -31,7 +31,7 @@ export default {
     })
     return {
       state,
-      task: computed(() => AppState.tasks)
+      tasks: computed(() => AppState.tasks)
     }
   },
   components: {}

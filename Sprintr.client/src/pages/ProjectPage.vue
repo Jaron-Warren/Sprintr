@@ -24,12 +24,12 @@
         </li>
         <li class="nav-item" v-for="s in sprints" :key="s.id">
           <router-link :to="{ name: 'Sprint', params: {sprintid: s.id} }" class="nav-link">
-            Sprint
+            {{ s.name }}
           </router-link>
         </li>
       </ul>
     </div>
-    <button class="btn btn-secondary">
+    <button class="btn btn-secondary" @click="createSprint">
       Create Sprint
     </button>
     <button class="btn btn-danger mx-4" @click="deleteProject">
